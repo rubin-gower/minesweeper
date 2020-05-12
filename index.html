@@ -7,9 +7,176 @@
     <script src="lib/lib.js"></script>
     <script src="minesweeper.js"></script>
   </head>
-  <body>
-    <div id="message"></div>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase.js"></script>
+
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-analytics.js"></script>
+
+<script>
+  var names = []
+  var best = []
+  var presort = []
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCb-jkhF5fXNDF6icRPSCwFNDDrwdBAWtU",
+    authDomain: "scorebord-d4dbd.firebaseapp.com",
+    databaseURL: "https://scorebord-d4dbd.firebaseio.com",
+    projectId: "scorebord-d4dbd",
+    storageBucket: "scorebord-d4dbd.appspot.com",
+    messagingSenderId: "657270954936",
+    appId: "1:657270954936:web:186070e101216794f18d4d",
+    measurementId: "G-BW1HZ4ECX7"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+ // function writeData(){
+ //   firebase.database().ref("users").set({
+      
+  //    name: document.getElementById("namedata").value,
+  //    time: document.getElementById("timer").innerHTML
+      
+    
+  //  })
+ // }
+  function writeData() {
+  var database = firebase.database();
+  var users = database.ref('users');
+  var data = {
+  name: document.getElementById("namedata").value,
+  time: document.getElementById("timer").innerHTML
+
+}
+users.push(data);
+location.reload();
+}
+
+  function testmyfunc(){
+    //console.log(document.getElementById("namedata").value)
+     
+
+
+  }
+
+  function getdata() {
+console.log("trying to get data")
+
+
+var ref = firebase.database().ref('users');
+ref.on("value", gotData, errData);
+
+
+}
+ function gotData(data) {
+console.log(data.val())
+var objs = data.val()
+var keys = Object.keys(objs)
+console.log(keys)
+console.log(Object.keys(objs).length + " scores loaded")
+
+for(var i = 0; i < keys.length; i++){
+   var k = keys[i];
+   var id = k;
+  console.log("personal id " + k)
+
+var ref = firebase.database().ref("users/" + id);
+ref.on("value", gotOne, errData);
+
+
+}
+function gotOne(data) {
+   //console.log(data.val())
+   var test2 = data.val()
+   console.log(test2.name)
+   console.log(test2.time)
+   
+   names.push(test2.name)
+   best.push(test2.time)
+   presort.push(test2.time)
+
+}
+console.log("names " + names)
+console.log("best " + best)
+console.log("presort " + presort)
+console.log(best.sort((a, b) => a - b))
+
+
+ console.log(presort.indexOf(best[0]))
+if (best[0] == undefined) {
+
+  document.getElementById("fptime").innerHTML = "this could be you"
+}
+else {
+ document.getElementById("fpname").innerHTML = names[presort.indexOf(best[0])]
+ document.getElementById("fptime").innerHTML = best[0]
+}
+if (best[1] == undefined) {
+  document.getElementById("sptime").innerHTML = "this could be you"
+}
+else {
+  document.getElementById("spname").innerHTML = names[presort.indexOf(best[1])]
+ document.getElementById("sptime").innerHTML = best[1]
+}
+if (best[2] == undefined) {
+  document.getElementById("tptime").innerHTML = "this could be you"
+}
+else {
+  document.getElementById("tpname").innerHTML = names[presort.indexOf(best[2])]
+ document.getElementById("tptime").innerHTML = best[2]
+}
+if (best[3] == undefined) {
+  document.getElementById("fuptime").innerHTML = "this could be you"
+}
+else {
+  document.getElementById("fupname").innerHTML = names[presort.indexOf(best[3])]
+ document.getElementById("fuptime").innerHTML = best[3]
+}
+if (best[4] == undefined) {
+  document.getElementById("fiptime").innerHTML = "this could be you"
+}
+else {
+  document.getElementById("fipname").innerHTML = names[presort.indexOf(best[4])]
+ document.getElementById("fiptime").innerHTML = best[4]
+}
+}
+ 
+
+
+
+  function errData(err) {
+    console.log("errror")
+    console.log(err)
+}
+
+
+  
+
+  function dabutton() {
+      location.reload();
+  }
+</script>
+  <body onload="getdata()">
+    <div id="box">
+      <div id="uwin"><br>u win!
+    <input type="text" placeholder="name" name="namefeild" id="namedata" onkeyup="testmyfunc()"> 
+    <button onclick="writeData()">submit score</button>
+  </div>
+    <div id="message"></div> <button onclick="dabutton()">restart</button>
     <div id="notes"></div>
     <div class="board"></div>
+  </div>
+    <div id="scoreboard"> <div id="current">yourtime<br><h3><div id="timer">test</div><h3></div><br>
+    <div class="scorecard" id="first">Gold:<div id="fpname"></div><div id="fptime"></div></div>
+    <div class="scorecard" id="second">Silver:<div id="spname"></div><div id="sptime"></div></div>
+    <div class="scorecard" id="third">Bronze:<div id="tpname"></div><div id="tptime"></div></div>
+    <div class="scorecard">Fourth place:<div id="fupname"></div><div id="fuptime"></div></div>
+    <div class="scorecard">Fith place:<div id="fipname"></div><div id="fiptime"></div></div>
+   
+  </div>
+  
   </body>
 </html>

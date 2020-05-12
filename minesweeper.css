@@ -4,7 +4,10 @@ html, body {
 }
 
 body {
-  display: flex;
+ 
+}
+#box {
+   display: flex;
   align-items: center;
   justify-content: flex-center;
   flex-direction: column;
@@ -57,4 +60,46 @@ div.hidden:hover {
 
 div.marked, div.marked:hover {
   background: no-repeat center/60% url("images/mark.svg") deepskyblue;
+}
+#scoreboard {
+  width: 250px;
+  height: 500px;
+ 
+  top: 80px;
+  right: 50px;
+  position: fixed;
+}
+#current{
+  width: 100%;
+  height: 70px;
+  background-color: red;
+  text-align: center;
+  border: solid;
+  background-color: white;
+}
+.scorecard{
+  width: 100%;
+  height: 70px;
+  background-color: white;
+  text-align: center;
+  border: solid;
+}
+#uwin {
+  border: solid;
+  width: 200px;
+  height: 70px;
+  background-color: pink;
+  text-align: center;
+  position: fixed;
+  top: 200px;
+  display: none;
+}
+#first{
+  background-color: rgb(245, 203, 66);
+}
+#second{
+  background-color: rgb(196, 196, 196);
+}
+#third{
+  background-color: #cc6633;
 }
